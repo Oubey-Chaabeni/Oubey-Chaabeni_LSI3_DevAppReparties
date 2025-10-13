@@ -12,6 +12,10 @@ public class Client {
         Scanner intScanner = new Scanner(System.in);
 
         int x;
+
+        boolean conti = true;
+
+
         try
         {
 
@@ -24,14 +28,21 @@ public class Client {
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
             
             System.out.println("Entrer l entier pour l envoyer au serveur : ");
-            x = intScanner.nextInt();
-            out.writeInt(x);
 
-            x = in.readInt();
+            while(conti)
+            {
+                x = intScanner.nextInt();
+                out.writeInt(x);
+                if(x==0)
+                {
+                    conti = false;
+                }
+                x = in.readInt();
 
-            System.out.println("La resulta envoi par le serveur est :"+x+".");
-
+                System.out.println("La resulta envoi par le serveur est :"+x+".");
+            }
             socket.close();
+            System.out.println("connexion ferme .");
 
         }catch(IOException e )
         {
