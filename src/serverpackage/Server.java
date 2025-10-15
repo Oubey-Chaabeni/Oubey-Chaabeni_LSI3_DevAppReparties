@@ -9,7 +9,9 @@ public class Server {
     public static void main(String[] args) 
     {
 
-        int x;
+        int x,y;
+
+        String op;
 
         boolean conti=true;
 
@@ -31,13 +33,32 @@ public class Server {
             while(conti)
             {
                 x = in.readInt();
-                if(x==0)
+                y = in.readInt();
+                op = in.readUTF();
+                if(x==0 && y==0)
                 {
                     conti = false;
                 }
-                x*=5;
-
-                out.writeInt(x);
+                else
+                {
+                    if(op.equals("+"))
+                    {
+                        out.writeInt(x+y);
+                    }
+                    else if(op.equals("-"))
+                    {
+                        out.writeInt(x-y);
+                    }
+                    else if(op.equals("/"))
+                    {
+                        out.writeInt(x*y);
+                    }
+                    else if(op.equals("/"))
+                    {
+                        out.writeInt(x/y);
+                    }
+                out.flush();
+                }
                 System.out.println("Resulta envoie succefully!");
             }
             clientSocket.close();
