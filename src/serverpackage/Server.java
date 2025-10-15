@@ -1,8 +1,7 @@
 package serverpackage;
 
 import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.net.*;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 
@@ -14,30 +13,35 @@ public class Server {
 
         boolean conti=true;
 
-        try(ServerSocket serverSocket = new ServerSocket(1234))
+        try
         {
-        System.out.println("Je suis un serveur en attente la connexion d'un client");
+            InetAddress localIp = InetAddress.getLocalHost();
+            InetSocketAddress socketAddress = new InetSocketAddress(localIp, 1234);
+            ServerSocket serverSocket = new ServerSocket();
+            serverSocket.bind(socketAddress);
 
-        Socket clientSocket = serverSocket.accept();
-        System.out.println("un client est connecté"); 
+            System.out.println("Je suis un serveur en attente la connexion d'un client");
 
-        DataInputStream in = new DataInputStream(clientSocket.getInputStream());
-        DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream());
+            Socket clientSocket = serverSocket.accept();
+            System.out.println("un client est connecté"); 
 
-        while(conti)
-        {
-            x = in.readInt();
-            if(x==0)
+            DataInputStream in = new DataInputStream(clientSocket.getInputStream());
+            DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream());
+
+            while(conti)
             {
-                conti = false;
-            }
-            x*=5;
+                x = in.readInt();
+                if(x==0)
+                {
+                    conti = false;
+                }
+                x*=5;
 
-            out.writeInt(x);
-            System.out.println("Resulta envoie succefully!");
-        }
-        clientSocket.close();
-        System.out.println("connexion ferme .");
+                out.writeInt(x);
+                System.out.println("Resulta envoie succefully!");
+            }
+            clientSocket.close();
+            System.out.println("connexion ferme .");
 
         }catch(IOException e)
         {

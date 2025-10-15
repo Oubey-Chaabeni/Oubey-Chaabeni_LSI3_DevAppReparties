@@ -1,6 +1,7 @@
 package clientpackage;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -18,10 +19,11 @@ public class Client {
 
         try
         {
+            InetAddress serverIP = InetAddress.getLocalHost();
 
             System.out.println("Je suis un client pas encore connecté…");  
             
-            Socket socket = new Socket("localhost", 1234);
+            Socket socket = new Socket(serverIP, 1234);
             System.out.println("je suis un client connecté");  
 
             DataInputStream in = new DataInputStream(socket.getInputStream());
