@@ -2,9 +2,11 @@ package clientpackage;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.rmi.server.Operation;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -17,8 +19,8 @@ public class Client {
         Scanner strScanner = new Scanner(System.in);
 
         String op= "", forma = "-?\\d+\\s*[+\\-*/]\\s*-?\\d+";
-
-        int r;
+        String[] parts;
+        int r,x,y;
 
         boolean conti = true ,opt = true,numt = true;
 
@@ -32,8 +34,8 @@ public class Client {
             Socket socket = new Socket(serverIP, 1234);
             System.out.println("je suis un client connecté");  
 
+            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
             
 
             while(conti)
@@ -47,8 +49,13 @@ public class Client {
                         opt = false;
                     }
                 }
-                out.println(op);
+                parts = op.split("\\s+");
+                x = Integer.parseInt(parts[0]);
+                op = parts[1];
+                y = Integer.parseInt(parts[2]);
                 opt=true;
+                Operation operation = new Operation(x, y, op);
+                out.writeObject(operation);
                 r = in.read();
                 System.out.println("La resulta envoi par le serveur est :"+r+".");
                 out.flush();
