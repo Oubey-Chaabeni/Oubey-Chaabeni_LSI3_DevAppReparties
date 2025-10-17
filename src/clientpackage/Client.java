@@ -17,7 +17,7 @@ public class Client {
 
         String op="";
 
-        boolean conti = true ,opt = true;
+        boolean conti = true ,opt = true,numt = true;
 
 
         try
@@ -35,12 +35,20 @@ public class Client {
 
             while(conti)
             {
-                System.out.print("Entrer Le premier nomber(0 si vous desirez quitter) : ");
-                x = intScanner.nextInt();
-                out.writeInt(x);
-                System.out.print("Entrer Le Deuxieme nomber(0 si vous desirez quitter) : ");
-                y = intScanner.nextInt();
-                out.writeInt(y);
+                while(numt)
+                {
+                    System.out.print("Entrer Le premier nomber(0 si vous desirez quitter) : ");
+                    x = intScanner.nextInt();
+                    out.writeInt(x);
+                    System.out.print("Entrer Le Deuxieme nomber(0 si vous desirez quitter) : ");
+                    y = intScanner.nextInt();
+                    out.writeInt(y);
+                    if(x instanceof Number || y instanceof Number)
+                    {
+                        numt = false;
+                    }
+                }
+                numt = true;
                 opt=true;
                 while(opt)
                 {
